@@ -11,8 +11,8 @@ int main() {
     //std::cout << std::format("Hello, {}", *author) << std::endl;
 
     std::unique_ptr<EncryptSimple> encrypter = std::make_unique<EncryptSimple>();
-    const std::string original { "GFTAVFDOX" };
-    std::string converted = original;
+    const std::string original_simple { "GFTAVFDOX" };
+    std::string converted = original_simple;
     int times = 10;
 
     // for(int i = 0; i < times; i ++) {
@@ -25,11 +25,12 @@ int main() {
 
     //  Vigenere
     std::unique_ptr<Vigenere> vigenere = std::make_unique<Vigenere>();
-    std::string source { "LA SOLITUDINE DEI NUMERI PRIMI" };
-    std::cout << std::format("Original: {}, converted: {}", source, vigenere->encrypt(source, "TRE")) << std::endl;
+    std::string original { "la solitudine dei numeri primi" };
+    std::string key { "tre" };
+    std::string encrypted = vigenere->encrypt(original, key);
 
-    std::string source_encrypted { "ER WHCMMLHBEI WVM GLQXIM IIMFZ" };
-    std::cout << std::format("Original: {}, converted: {}", source_encrypted, vigenere->decrypt(source_encrypted, "TRE")) << std::endl;
+    std::cout << std::format("Original: {} (key='{}'), converted: {}", original, key, encrypted) << std::endl;
+    std::cout << std::format("Encrypted: {} (key='{}'), converted: {}", encrypted, key, vigenere->decrypt(encrypted, key)) << std::endl;
 
 
     return 0;
