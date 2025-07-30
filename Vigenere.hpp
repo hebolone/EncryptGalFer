@@ -8,11 +8,13 @@ private:
     const int Length = Alphabet.length();
 public:
     std::string encrypt(const std::string & source, const std::string & key) const {
-        std::string s { source };
-        std::ranges::transform(s, s.begin(), [](unsigned char c) { return std::toupper(c); });
+        std::string s;
+        s.resize(source.length());
+        std::ranges::transform(source, s.begin(), [](unsigned char c) { return std::toupper(c); });
 
-        std::string k { key };
-        std::ranges::transform(k, k.begin(), [](unsigned char c) { return std::toupper(c); });
+        std::string k;
+        k.resize(key.length());
+        std::ranges::transform(key, k.begin(), [](unsigned char c) { return std::toupper(c); });
         
         std::string return_value { };
         const int length = s.length();
@@ -30,11 +32,13 @@ public:
         return return_value;
     }
     std::string decrypt(const std::string & source, const std::string & key) const {
-        std::string s { source };
-        std::ranges::transform(s, s.begin(), [](unsigned char c) { return std::toupper(c); });
+        std::string s;
+        s.resize(source.length());
+        std::ranges::transform(source, s.begin(), [](unsigned char c) { return std::toupper(c); });
 
-        std::string k { key };
-        std::ranges::transform(k, k.begin(), [](unsigned char c) { return std::toupper(c); });
+        std::string k;
+        k.resize(key.length());
+        std::ranges::transform(key, k.begin(), [](unsigned char c) { return std::toupper(c); });
         
         std::string return_value { };
         const int length = s.length();
