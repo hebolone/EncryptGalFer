@@ -1,37 +1,54 @@
 #include <iostream>
 #include <memory>
 #include <format>
+#include <print>
 
 #include "Encrypter.hpp"
 #include "Vigenere.hpp"
 
+std::string Test_Simple_01(const std::string & source, int iterations) {
+    std::unique_ptr<EncryptSimple> sim = std::make_unique<EncryptSimple>();
+    std::string current { source };
+
+    for(int i = 0; i < iterations; i ++) {
+        current = sim->decrypt(current);
+    }
+
+    return current;
+}
+
 int main() {
-    //std::unique_ptr<std::string> author = std::make_unique<std::string>("world");
-    //std::cout << "Hello, " << *author << std::endl;
-    //std::cout << std::format("Hello, {}", *author) << std::endl;
-
-    // std::unique_ptr<EncryptSimple> encrypter = std::make_unique<EncryptSimple>();
-    // const std::string original_simple { "GFTAVFDOX" };
-    // std::string converted = original_simple;
-    // int times = 10;
-
-    // for(int i = 0; i < times; i ++) {
-    //     std::string in = converted;
-    //     converted = encrypter->decrypt(in);
-    //     std::cout << std::format("{} -{} -> {}", i + 1, in, converted) << std::endl;
-    // }
     
-    // std::cout << std::format("Original: {}, converted: {} (run {} times)", original, converted, times) << std::endl;
-
+    //  Simple
+    std::string source_simple_01 { "GFTAVFDOX" };
+    std::println("{} -> {}", source_simple_01, Test_Simple_01(source_simple_01, 10));
+    
     //  Vigenere
-    std::unique_ptr<Vigenere> vigenere = std::make_unique<Vigenere>();
-    std::string original { "la solitudine dei numeri primi" };
-    std::string key { "tre" };
-    std::string encrypted = vigenere->encrypt(original, key);
-
-    std::cout << std::format("Original: {} (key='{}'), converted: {}", original, key, encrypted) << std::endl;
-    std::cout << std::format("Encrypted: {} (key='{}'), converted: {}", encrypted, key, vigenere->decrypt(encrypted, key)) << std::endl;
-
+	std::unique_ptr<Vigenere> vig = std::make_unique<Vigenere>();
+    
+	std::string source_vig_01 { "la solitudine dei numeri primi" };
+	std::string key_vig_01 { "TRE" };
+	std::string encrypted = vig->encrypt(source_vig_01, key_vig_01);
+	std::string decrypted = vig->decrypt(encrypted, key_vig_01);
+    
+    std::println();
+    std::println("Vigenere");
+	std::println("{} (key: {}) -> {}", source_vig_01, key_vig_01, encrypted);
+	std::println("{} (key: {}) -> {}", encrypted, key_vig_01, decrypted);
+	
+	//--------------------------------------------------------------------------
+    std::println();
+    std::println("Vigenere 3 times");
+	
+	std::string source_vig_02 { "WDFNVUEIRZJ EFAQOJUHA" };
+	std::string key_vig_02 { "BETA" };
+	std::string current { source_vig_02 };
+	
+	for(int i = 0; i < 3; i ++) {
+	    current = vig->decrypt(current, key_vig_02);
+	}
+	
+    std::println("{} (key: {}) -> {}", source_vig_02, key_vig_02, current);
 
     return 0;
 }
