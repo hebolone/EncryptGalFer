@@ -6,25 +6,20 @@
 #include "Encrypter.hpp"
 #include "Vigenere.hpp"
 
-std::string Test_Simple_01(const std::string & source, int iterations) {
-    std::unique_ptr<EncryptSimple> sim = std::make_unique<EncryptSimple>();
-    std::string current { source };
+enum class TOperation { Encrypt, Decrypt };
 
-    for(int i = 0; i < iterations; i ++) {
-        current = sim->decrypt(current);
-    }
+std::string Test01(TOperation, const std::string &, const std::string &, int);
 
-    return current;
-}
+std::string Test02(TOperation, const std::string &, const std::string &, int);
 
 int main() {
-    
     //  Simple
     std::string source_simple_01 { "GFTAVFDOX" };
-    std::println("{} -> {}", source_simple_01, Test_Simple_01(source_simple_01, 10));
+	const std::string conversion_table { "AXCZQBYIJGWEHNDFOPRTLVSUMK" };
+    std::println("{} -> {}", source_simple_01, Test01(TOperation::Decrypt, source_simple_01 , conversion_table , 10));
     
     //  Vigenere
-	std::unique_ptr<Vigenere> vig = std::make_unique<Vigenere>();
+	const auto vig = std::make_unique<Vigenere>();
     
 	std::string source_vig_01 { "la solitudine dei numeri primi" };
 	std::string key_vig_01 { "TRE" };
@@ -42,13 +37,44 @@ int main() {
 	
 	std::string source_vig_02 { "WDFNVUEIRZJ EFAQOJUHA" };
 	std::string key_vig_02 { "BETA" };
-	std::string current { source_vig_02 };
-	
-	for(int i = 0; i < 3; i ++) {
-	    current = vig->decrypt(current, key_vig_02);
-	}
-	
-    std::println("{} (key: {}) -> {}", source_vig_02, key_vig_02, current);
+
+	std::println("{} (key: {}) -> {}", source_vig_02, key_vig_02, Test02(TOperation::Decrypt, source_vig_02, key_vig_02 , 3));
 
     return 0;
+}
+
+std::string Test01(TOperation operation, const std::string & source, const std::string & converter, int iterations = 1) {
+	EncryptSimple sim { converter };
+	std::string current { source };
+
+	for(int i = 0; i < iterations; i ++) {
+		switch(operation) {
+			case TOperation::Encrypt:
+				current = sim.encrypt(current);
+				break;
+			case TOperation::Decrypt:
+				current = sim.decrypt(current);
+				break;
+		}
+	}
+
+	return current;
+}
+
+std::string Test02(TOperation operation, const std::string & source, const std::string & key, int iterations = 1) {
+	Vigenere vig { };
+	std::string current { source };
+
+	for(int i = 0; i < iterations; i ++) {
+		switch(operation) {
+			case TOperation::Encrypt:
+				current = vig.encrypt(current, key);
+				break;
+			case TOperation::Decrypt:
+				current = vig.decrypt(current, key);
+				break;
+		}
+	}
+
+	return current;
 }
