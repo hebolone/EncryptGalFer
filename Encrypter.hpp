@@ -12,11 +12,11 @@ public:
     [[nodiscard]] std::string decrypt(const std::string& source) const {
         std::string s;
         s.resize(source.length());
-        std::ranges::transform(source, s.begin(), [](unsigned char c) { return std::toupper(c); });
+        std::ranges::transform(source, s.begin(), [](const unsigned char c) { return std::toupper(c); });
 
         std::string return_value { };
         for(int i = 0; i < s.length(); i ++) {
-            size_t c = Conversion.find(s[i]);
+            const size_t c = Conversion.find(s[i]);
             return_value += c != std::string::npos ? Alphabet[c] : s[i];
         }
         return return_value;
@@ -24,11 +24,11 @@ public:
     [[nodiscard]] std::string encrypt(const std::string & source) const {
         std::string s;
         s.resize(source.length());
-        std::ranges::transform(source, s.begin(), [](unsigned char c) { return std::toupper(c); });
+        std::ranges::transform(source, s.begin(), [](const unsigned char c) { return std::toupper(c); });
 
         std::string return_value { };
         for(int i = 0; i < s.length(); i ++) {
-            size_t c = Alphabet.find(s[i]);
+            const size_t c = Alphabet.find(s[i]);
             return_value += c != std::string::npos ? Conversion[c] : s[i];
         }
         return return_value;
