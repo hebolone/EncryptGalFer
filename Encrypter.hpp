@@ -12,7 +12,7 @@ public:
     [[nodiscard]] std::string decrypt(const std::string& source) const {
         std::string s;
         s.resize(source.length());
-        std::ranges::transform(source, s.begin(), [](const unsigned char c) { return std::toupper(c); });
+        std::ranges::transform(source, s.begin(), ::toupper);
 
         std::string return_value { };
         for(int i = 0; i < s.length(); i ++) {
@@ -24,7 +24,7 @@ public:
     [[nodiscard]] std::string encrypt(const std::string & source) const {
         std::string s;
         s.resize(source.length());
-        std::ranges::transform(source, s.begin(), [](const unsigned char c) { return std::toupper(c); });
+        std::ranges::transform(source, s.begin(), ::toupper);
 
         std::string return_value { };
         for(int i = 0; i < s.length(); i ++) {

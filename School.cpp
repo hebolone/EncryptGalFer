@@ -2,78 +2,55 @@
 #include <format>
 #include <print>
 
+#include "cxxopts.hpp"
 #include "Encrypter.hpp"
 #include "Vigenere.hpp"
+#include "commandlineparser.cpp"
 
-enum class TOperation { Encrypt, Decrypt };
 
-std::string Test01(TOperation, const std::string &, const std::string &, int);
 
-std::string Test02(TOperation, const std::string &, const std::string &, int);
 
-int main() {
-    //  Simple
-    std::string source_simple_01 { "GFTAVFDOX" };
-	const std::string conversion_table { "AXCZQBYIJGWEHNDFOPRTLVSUMK" };
-    std::println("{} -> {}", source_simple_01, Test01(TOperation::Decrypt, source_simple_01 , conversion_table , 10));
-    
-    //  Vigenere
-	const auto vig = std::make_unique<Vigenere>();
-    
-	std::string source_vig_01 { "la solitudine dei numeri primi" };
-	std::string key_vig_01 { "TRE" };
-	std::string encrypted = vig->encrypt(source_vig_01, key_vig_01);
-	std::string decrypted = vig->decrypt(encrypted, key_vig_01);
-    
-    std::println();
-    std::println("Vigenere");
-	std::println("{} (key: {}) -> {}", source_vig_01, key_vig_01, encrypted);
-	std::println("{} (key: {}) -> {}", encrypted, key_vig_01, decrypted);
-	
+int main(const int argc, const char* argv[]) {
+ //    //  Simple
+ //    std::string ex_a_source { "GFTAVFDOX" };
+	// const std::string conversion_table { "AXCZQBYIJGWEHNDFOPRTLVSUMK" };
+	// std::println("Exercise A");
+ //    std::println("{} -> {}", ex_a_source, LaunchSimple(TOperation::Decrypt, ex_a_source , conversion_table , 10));
+ //
+ //    //  Vigenere
+	// const auto vig = std::make_unique<Vigenere>();
+ //
+	// // std::string test_vig_01 { "la solitudine dei numeri primi" };
+	// // std::string key_vig_01 { "TRE" };
+	// // std::string test_vig_encrypted = vig->encrypt(test_vig_01, key_vig_01);
+	// // std::string test_vig_decrypted = vig->decrypt(test_vig_encrypted, key_vig_01);
+ // //
+ //     std::println();
+ // //    std::println("Vigenere");
+	// // std::println("{} (key: {}) -> {}", test_vig_01, key_vig_01, test_vig_encrypted);
+	// // std::println("{} (key: {}) -> {}", test_vig_encrypted, key_vig_01, test_vig_decrypted);
+ //
+	// //	Exercise B
+	// std::string ex_b_source { "stiamo tutti bene" };
+	// std::string ex_b_key { "alfa" };
+	// std::string ex_b_result = vig->encrypt(ex_b_source, ex_b_key);
+	// std::println("Exercise B");
+	// std::println("{} (key: {}) -> {}", ex_b_source, ex_b_key, ex_b_result);
+	//
+	// //	Exercise C
+ //    std::println();
+ //    std::println("Exercise C");
+	//
+	// std::string ex_c_source { "WDFNVUEIRZJ EFAQOJUHA" };
+	// std::string ex_c_key { "BETA" };
+ //
+	// std::println("{} (key: {}) -> {}", ex_c_source, ex_c_key, LaunchVigenere(TOperation::Decrypt, ex_c_source, ex_c_key , 3));
+
 	//--------------------------------------------------------------------------
-    std::println();
-    std::println("Vigenere 3 times");
-	
-	std::string source_vig_02 { "WDFNVUEIRZJ EFAQOJUHA" };
-	std::string key_vig_02 { "BETA" };
-
-	std::println("{} (key: {}) -> {}", source_vig_02, key_vig_02, Test02(TOperation::Decrypt, source_vig_02, key_vig_02 , 3));
+	// cxxopts
+	if(!parse(argc, argv)) {
+		return 1;
+	}
 
     return 0;
-}
-
-std::string Test01(TOperation operation, const std::string & source, const std::string & converter, int iterations = 1) {
-	EncryptSimple sim { converter };
-	std::string current { source };
-
-	for(int i = 0; i < iterations; i ++) {
-		switch(operation) {
-			case TOperation::Encrypt:
-				current = sim.encrypt(current);
-				break;
-			case TOperation::Decrypt:
-				current = sim.decrypt(current);
-				break;
-		}
-	}
-
-	return current;
-}
-
-std::string Test02(TOperation operation, const std::string & source, const std::string & key, int iterations = 1) {
-	Vigenere vig { };
-	std::string current { source };
-
-	for(int i = 0; i < iterations; i ++) {
-		switch(operation) {
-			case TOperation::Encrypt:
-				current = vig.encrypt(current, key);
-				break;
-			case TOperation::Decrypt:
-				current = vig.decrypt(current, key);
-				break;
-		}
-	}
-
-	return current;
 }
